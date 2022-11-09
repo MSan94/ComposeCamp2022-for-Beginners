@@ -38,7 +38,13 @@ import com.example.happybirthday.ui.theme.HappyBirthdayTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { }
+        setContent {
+            HappyBirthdayTheme {
+                Surface(color = MaterialTheme.colors.background) {
+                    BirthdayGreetingWithText(getString(R.string.card_message), getString(R.string.user_name))
+                }
+            }
+        }
     }
 }
 
@@ -46,15 +52,38 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BirthdayGreetingWithText(message: String, from: String) {
     // Create a column so that texts don't overlap
-    Column { }
+    // Row 가로
+//    Row {
+//        Text(text = "$message $from 1", fontSize = 20.sp)
+//        Text(text = "$message $from 2", fontSize = 20.sp)
+//        Text(text = "$message $from 3", fontSize = 20.sp)
+//        Text(text = "$message $from 4", fontSize = 20.sp)
+//    }
+    // Col 세로
+    Column {
+//        Text(text = "$message $from 1", fontSize = 20.sp)
+//        Text(text = "$message $from 2", fontSize = 20.sp)
+//        Text(text = "$message $from 3", fontSize = 20.sp)
+//        Text(text = "$message $from 4", fontSize = 20.sp)
+        Text(text = message, fontSize = 36.sp)
+        Text(text = from, fontSize = 24.sp)
+    }
 }
 
 // 5. Box 레이아웃 추
 @Composable
-fun BirthdayGreetingWithImage(message: String, from: String) { }
+fun BirthdayGreetingWithImage(message: String, from: String) {}
 
 // 4. 이미지 컴포저블 추가
-@Preview(showBackground = false)
+@Preview(name = "My Preview", showBackground = true)
 @Composable
-private fun BirthdayCardPreview() { }
+private fun BirthdayCardPreview() {
+    HappyBirthdayTheme {
+        BirthdayGreetingWithText("Happy Birthday","-from MyeongSeong")
+    }
+}
 
+@Composable
+fun Greeting(name : String){
+    Text(text = "Hello $name!")
+}
