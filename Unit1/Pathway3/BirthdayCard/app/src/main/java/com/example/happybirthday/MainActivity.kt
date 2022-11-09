@@ -20,6 +20,7 @@ import android.text.Layout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -27,6 +28,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -41,7 +43,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             HappyBirthdayTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    BirthdayGreetingWithText(getString(R.string.card_message), getString(R.string.user_name))
+                    BirthdayGreetingWithImage(stringResource(R.string.card_message), stringResource(R.string.user_name))
                 }
             }
         }
@@ -51,7 +53,6 @@ class MainActivity : ComponentActivity() {
 // 7. 텍스트 정렬 및 패딩 추가
 @Composable
 fun BirthdayGreetingWithText(message: String, from: String) {
-    // Create a column so that texts don't overlap
     // Row 가로
 //    Row {
 //        Text(text = "$message $from 1", fontSize = 20.sp)
@@ -61,25 +62,45 @@ fun BirthdayGreetingWithText(message: String, from: String) {
 //    }
     // Col 세로
     Column {
-//        Text(text = "$message $from 1", fontSize = 20.sp)
-//        Text(text = "$message $from 2", fontSize = 20.sp)
-//        Text(text = "$message $from 3", fontSize = 20.sp)
-//        Text(text = "$message $from 4", fontSize = 20.sp)
-        Text(text = message, fontSize = 36.sp)
-        Text(text = from, fontSize = 24.sp)
+        // modifier 및 ContentScale를 통해 위치 지정 및 크기 조정을 할 수 있다.
+        Text(text = message,
+            fontSize = 36.sp,
+//            modifier = Modifier.background(color = Color.Green),
+            // constraint 라고 생각하면 될듯??
+            modifier = Modifier.fillMaxWidth().wrapContentWidth(Alignment.CenterHorizontally).padding(start = 16.dp, top = 16.dp, end = 16.dp)
+        )
+        Text(
+            text = from,
+            fontSize = 24.sp,
+            modifier = Modifier.fillMaxWidth().wrapContentWidth(Alignment.CenterHorizontally).padding(start = 16.dp, end = 16.dp)
+        )
     }
 }
 
 // 5. Box 레이아웃 추
 @Composable
-fun BirthdayGreetingWithImage(message: String, from: String) {}
+fun BirthdayGreetingWithImage(message: String, from: String) {
+    val image = painterResource(id = R.drawable.androidparty) // painterResource로 drawable 리소스 접근
+    // box 레이아웃을 통해 요소를 박스처럼 쌓을 수 있다. , 특정 정렬도 구성 가능
+    Box {
+        // painter : 리소스  ,  contentDescription : 사용자에게 표시되는 콘텐츠 설정 ( null 선언 시 톡백 생략 )
+        // modifier 및 ContentScale를 통해 위치 지정 및 크기 조정을 할 수 있다.
+        Image(
+            painter = image,
+            contentDescription = null,
+            modifier = Modifier.fillMaxHeight().fillMaxWidth(),
+            contentScale = ContentScale.Crop // Crop 속성 추가
+        )
+        BirthdayGreetingWithText(message,from)
+    }
+}
 
 // 4. 이미지 컴포저블 추가
-@Preview(name = "My Preview", showBackground = true)
+@Preview(name = "My Preview", showBackground = false)
 @Composable
 private fun BirthdayCardPreview() {
     HappyBirthdayTheme {
-        BirthdayGreetingWithText("Happy Birthday","-from MyeongSeong")
+        BirthdayGreetingWithImage("Happy Birthday","-from MyeongSeong")
     }
 }
 
