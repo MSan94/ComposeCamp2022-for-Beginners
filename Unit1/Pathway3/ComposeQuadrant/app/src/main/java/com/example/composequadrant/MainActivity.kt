@@ -22,15 +22,25 @@ import com.example.composequadrant.ui.theme.ComposeQuadrantTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { }
+        setContent {
+            Surface(color = Color.White) {
+                ComposeQuadrantApp()
+            }
+        }
     }
 }
 
 @Composable
 fun ComposeQuadrantApp() {
-    Column() {
-        Row() { }
-        Row() { }
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.weight(1f)) {
+            ComposableInfoCard(stringResource(id = R.string.first_title), stringResource(id = R.string.first_description), androidx.compose.ui.graphics.Color.Green, modifier = Modifier.weight(1f))
+            ComposableInfoCard(stringResource(id = R.string.second_title), stringResource(id = R.string.second_description), androidx.compose.ui.graphics.Color.Yellow, modifier = Modifier.weight(1f))
+        }
+        Row(modifier = Modifier.weight(1f)) {
+            ComposableInfoCard(stringResource(id = R.string.third_title), stringResource(id = R.string.third_description), androidx.compose.ui.graphics.Color.Cyan, modifier = Modifier.weight(1f))
+            ComposableInfoCard(stringResource(id = R.string.fourth_title), stringResource(id = R.string.fourth_description), androidx.compose.ui.graphics.Color.LightGray, modifier = Modifier.weight(1f))
+        }
     }
 }
 
@@ -41,10 +51,28 @@ private fun ComposableInfoCard(
     backgroundColor: Color,
     modifier: Modifier = Modifier
 ) {
-    Column( ) { }
+    Column(
+        modifier = modifier
+            .background(backgroundColor)
+            .fillMaxSize().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = title, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 16.dp))
+        Text(text = description, textAlign = TextAlign.Justify)
+    }
 }
 
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() { }
+fun DefaultPreview() {
+    ComposeQuadrantApp()
+}
+
+//<string name="first_title">Text composable</string>
+//<string name="first_description">Displays text and follows Material Design guidelines.</string>
+//<string name="second_title">Image composable</string>
+//<string name="second_description">Creates a composable that lays out and draws a given Painter class object.</string>
+//<string name="third_title">Row composable</string>
+//<string name="third_description">A layout composable that places its children in a horizontal sequence.</string>
+//<string name="fourth_title">Column composable</string>
+//<string name="fourth_description">A layout composable that places its children in a vertical sequence.</string>
